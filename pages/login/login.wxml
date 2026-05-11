@@ -1,0 +1,27 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <!-- Logo区域 -->
+  <view class="logo-area">
+    <image class="logo" src="/static/ima/www.png" mode="aspectFit"></image>
+    <text class="app-name">欢迎登录</text>
+    <text class="app-desc">使用微信账号快速登录</text>
+  </view>
+
+  <!-- 登录按钮 -->
+  <button 
+    class="login-btn" 
+    bindtap="getUserInfo"
+    hover-class="login-btn-hover"
+  >
+    <image class="btn-icon" src="/static/ima/www.png" mode="aspectFit"></image>
+    <text>微信授权登录</text>
+  </button>
+
+  <!-- 底部说明 -->
+  <view class="footer">
+    <text class="footer-text">登录即表示同意</text>
+    <text class="link">用户协议</text>
+    <text class="footer-text">和</text>
+    <text class="link">隐私政策</text>
+  </view>
+</view>

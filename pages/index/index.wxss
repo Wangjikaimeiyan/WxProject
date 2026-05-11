@@ -1,0 +1,297 @@
+/* 全局重置 */
+/* 添加页面根容器高度和 flex 布局 */
+page {
+  height: 100vh;        /* 让 page 占满整个视口高度 */
+  display: flex;
+  flex-direction: column;
+}
+
+.page-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;         /* 继承 page 的高度 */
+}
+/* 顶部头部 占页面15% */
+.top-header {
+  width: 100%;
+  height: 12vh; /* 15vh 严格占页面高度15% */
+  background: #fff;
+  padding: 20rpx 30rpx;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 1rpx solid #eee;
+  /* 下方边框线 */
+  border-bottom: 1rpx solid #f10a0a;
+}
+
+/* 店铺名称行 */
+.shop-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10rpx;
+}
+.shop-name {
+  font-size: 34rpx;
+  color: #333;
+  font-weight: 500;
+}
+.shop-arrow {
+  font-size: 28rpx;
+  color: #999;
+  margin-left: 10rpx;
+}
+
+/* 信息行 */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.distance {
+  font-size: 26rpx;
+  color: #666;
+}
+.mode-tag {
+  display: flex;
+  background: #f5f5f5;
+  border-radius: 20rpx;
+  padding: 4rpx;
+}
+.mode-text {
+  font-size: 26rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 16rpx;
+  color: #666;
+}
+.mode-text.active {
+  background: #000;
+  color: #fff;
+}
+/* *******************************  */
+/* ========== 中间主体 ========== */
+.main-body {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* 左侧分类 */
+.category-sidebar {
+  /* 边框线条，1像素，橙色 */
+  border-right: 1rpx solid #ff7f00; /* 1像素橙色右边框 */
+  width: 160rpx;
+  background: #fcf3f0;
+  flex-shrink: 0;
+}
+.cate-item {
+  padding-top: 4rpx;
+  border-radius: 6rpx;
+  padding: 28rpx 20rpx;
+  text-align: center;
+  font-size: 26rpx; /**/
+  color: #333;
+  border-left: 6rpx solid transparent;
+  box-sizing: border-box;  /* 让高度包含 padding 和边框 */
+  height: 140rpx;          /* 等于侧边栏宽度，形成正方形 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+cate-text{
+  margin-top: -10rpx;
+}
+.cate-active {
+  color: #ff6b35;
+  font-weight: bold;
+  background: #dfdede;
+  border-left-color: #ff6b35;
+}
+
+/* 右侧菜品滚动区 */
+.goods-panel {
+  width: 100%;          /* 宽度占满右侧整个区域 */
+  height: 100%;         /* 高度自适应填满父容器 */
+  padding: 20rpx;       /* 卡片整体外部内边距，留出留白 */
+  box-sizing: border-box; /* 内边距不撑大自身宽高 */
+}
+
+/* 菜品卡片整体容器 */
+.goods-card {
+  position: relative;
+  display: flex;                /* 开启弹性布局，左右水平排列 */
+  align-items: center;          /* 内部元素垂直居中 */
+  background: #fff;             /* 卡片背景白色 */
+  border-radius: 16rpx;         /* 卡片整体圆角 */
+  padding: 20rpx;               /* 卡片内部上下左右留白 */
+  margin-bottom: 20rpx;         /* 卡片下方外边距，和下一张卡片隔开 */
+  box-shadow: 0 2rpx 10rpx rgba(0,0,0,0.05); /* 卡片阴影，增加层次感 */
+  box-sizing: border-box;       /* 内边距、圆角不超出卡片设定宽高 */
+  border: 2rpx solid #eee;     /* 新增：卡片加粗边框 可改3rpx更粗 */
+}
+
+/* 菜品图片样式 */
+.goods-img {
+  width: 160rpx;                /* 图片固定宽度 */
+  height: 160rpx;               /* 图片固定高度，正方形 */
+  border-radius: 12rpx;         /* 图片圆角 */
+  flex-shrink: 0;               /* 禁止图片被压缩变形 */
+  border: 2rpx solid #eee;     /* 新增：图片边框 粗细自行改rpx */
+}
+
+/* 中间菜品文字信息区域 */
+.goods-info {
+  flex: 1;                      /* 自动占满剩余宽度 */
+  margin-left: 20rpx;           /* 和左边图片拉开间距 */
+  align-self: flex-start;
+  padding-top: 0rpx;
+}
+
+/* 菜品名称 */
+.goods-name {
+  font-size: 32rpx;              /* 文字字号 */
+  color: #333;                  /* 文字深灰色 */
+  font-weight: 500;            /* 文字轻微加粗 */
+}
+
+.goods-desc {
+  /* 如果需要弹性布局，取消注释下面两行 */
+  /* display: flex; */
+  /* align-items: center; */
+
+  font-size: 24rpx;
+  color: #999;
+  margin: 8rpx 0;
+
+  /* 多行文本溢出省略（最多2行） */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+/* 菜品价格 */
+.goods-price {
+  font-size: 30rpx;              /* 价格字号稍大 */
+  color: #ff6700;               /* 橙色突出价格 */
+  font-weight: bold;            /* 价格加粗醒目 */
+}
+
+/* 右侧加号加入购物车按钮 */
+.goods-add {
+  width: 48rpx;                  /* 按钮宽度 */
+  height: 48rpx;                 /* 按钮高度 */
+  background: #ff6700;          /* 橙色背景 */
+  color: #fff;                   /* 文字白色 */
+  border-radius: 50%;            /* 圆形 */
+  text-align: center;            /* 水平居中 */
+  line-height: 42rpx;            /* 垂直居中 */
+  font-size: 35rpx;               /* 加号大小 */
+  position: absolute;            /* 绝对定位 */
+  right: 20rpx;                  /* 距右边距离 */
+  bottom: 20rpx;                 /* 距底边距离 */
+  box-shadow: 0 2rpx 8rpx rgba(255, 103, 0, 0.3); /* 加个小阴影，更像按钮 */
+}
+/* 右侧加号加入购物车按钮 */
+.goods-min {
+  width: 48rpx;                  /* 按钮宽度 */
+  height: 48rpx;                 /* 按钮高度 */
+  background: #ff6700;          /* 橙色背景 */
+  color: #fff;                   /* 文字白色 */
+  border-radius: 50%;            /* 圆形 */
+  text-align: center;            /*水平居中 */
+  line-height: 40rpx;           /* 垂直居中*/
+  font-size: 40rpx;               /* 加号大小 */
+  position: absolute;            /* 绝对定位 */
+  right: 140rpx;                  /* 距右边距离 */
+  bottom: 20rpx;                 /* 距底边距离 */
+  box-shadow: 0 2rpx 8rpx rgba(255, 103, 0, 0.3); /* 加个小阴影，更像按钮 */
+}
+.goods-num {
+  border-radius: 50%;            /* 圆形 */
+  text-align: center;            /* 水平居中 */
+  line-height: 42rpx;            /* 垂直居中 */
+  font-size: 30rpx;               /* 大小 */
+  position: absolute;            /* 绝对定位 */
+  right: 90rpx;                  /* 距右边距离 */
+  bottom: 25rpx;                 /* 距底边距离 */
+}
+
+.goods-ctrl {
+  align-items: center;
+}
+.goods-add:active {
+  width: 50rpx;
+  height: 50rpx;
+  text-align: center;
+  line-height: 50rpx;
+  border-radius: 50%;
+  transform: scale(0.9);
+}
+/* ******************************************** */
+
+/* 加个按压效果，点击更像按钮 */
+/* .goods-add:active {
+  transform: scale(0.9);
+} */
+
+
+
+
+
+
+
+
+
+
+
+/* ========== 底部购物车 ========== */
+.bottom-cart {
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx;
+  background: #333;
+  flex-shrink: 0;
+}
+.cart-icon-wrap {
+  position: relative;
+}
+.cart-icon {
+  font-size: 50rpx;
+}
+.cart-info {
+  flex: 1;
+  margin-left: 16rpx;
+}
+.cart-total {
+  color: #fff;
+  font-size: 32rpx;
+  font-weight: bold;
+}
+.cart-tip {
+  color: #aaa;
+  font-size: 22rpx;
+  display: block;
+}
+.cart-btn {
+  white-space: nowrap;
+  padding: 18rpx 40rpx;
+  background: #ff6b35;
+  color: #fff;
+  border-radius: 40rpx;
+  font-size: 28rpx;
+}
+
+.cart-btn.active1 {
+  background: #ff6b35;
+  color: #fff;
+  opacity: 1;
+}
+
+.cart-btn.disabled {
+  background: #ccc;
+  color: #999;
+  opacity: 0.6;
+}

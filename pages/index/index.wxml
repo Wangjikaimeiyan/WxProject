@@ -1,0 +1,73 @@
+<view class="page-container">
+  <view class="top-header">
+    <view class="shop-row">
+      <text class="shop-name">☆MJGA餐饮服务</text>
+      <text class="shop-arrow"></text>
+    </view>
+    <view class="info-row">
+      <text class="distance">⏰营业时间:6:00-20:00</text>
+      <view class="mode-tag">
+        <text wx:if="{{shopStatus === 1}}" class="mode-text active">✅营业中</text>
+        <text wx:if="{{shopStatus === 0}}" class="mode-text active">❌停业中</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 中间主体：左分类 + 右菜品 -->
+  <view class="main-body">
+    <!-- 左侧菜品分类 -->
+    <view class="category-sidebar">
+      <!-- wx:for 循环渲染分类，wx:key 必须写 -->
+      <view wx:for="{{categoryList}}" wx:key="id" class="cate-item {{activeCateId === item.id ? 'cate-active' : ''}}" bindtap="selectCate" data-id="{{item.id}}">
+        <view class="cate-item">
+          <text class="cate-text">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+
+
+    <!-- 右侧菜品卡片区 -->
+    <scroll-view class="goods-panel" scroll-y>
+      <!-- 菜品卡片，循环渲染 goodsList -->
+      <view class="goods-card" wx:for="{{AllDishes}}" wx:key="id" wx:if="{{item.category === activeCateId}}">
+        <image class="goods-img" src="{{item.image}}"></image>
+        <view class="goods-info">
+          <view class="goods-name">{{item.name}}</view>
+          <view class="goods-desc">{{item.detail}}</view>
+          <view class="goods-price">¥{{item.price}}</view>
+        </view>
+
+        <!-- 数量为0 只显示加号 -->
+        <!-- <view class="goods-ctrl" wx:if="{{getDishCount(item.id) === 0}}">
+          <view class="goods-add" bindtap="onAddCart" data-dish="{{item.id}}">+</view>
+        </view> -->
+
+        <!-- 数量大于0 显示 减 数量 加 -->
+        <view class="goods-ctrl">
+          <view class="goods-min" bindtap="onMinCart" data-dish="{{item}}">-</view>
+          <view class="goods-num">{{dishid_counts[item.id]||0}}</view>
+          <view class="goods-add" bindtap="onAddCart" data-dish="{{item}}">+</view>
+        </view>
+      </view>
+
+
+    </scroll-view>
+
+
+  </view>
+
+  <!-- 底部购物车（固定） -->
+  <view class="bottom-cart">
+    <view class="cart-icon-wrap">
+      <view class="cart-icon">🛒</view>
+      <!-- 角标可自行添加 -->
+    </view>
+    <view class="cart-info">
+      <text class="cart-total">¥{{cart_total_price/100}}</text>
+      <text class="cart-tip">预估配送约30分钟</text>
+    </view>
+    <view class="cart-btn {{shopStatus === 1 ? 'active1' : 'disabled'}}" bindtap="shopStatus">
+      {{shopStatus === 1 ? '去结算' : '暂不接单'}}
+    </view>
+  </view>
+</view>
