@@ -1,3 +1,18 @@
+<wxs module="util">
+// 根据id查菜品
+function getDish(arr, id) {
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].id == id) {
+      return arr[i];
+    }
+  }
+  return {};
+}
+module.exports = {
+  getDish: getDish
+};
+</wxs>
+
 <view class="page-container">
   <view class="top-header">
     <view class="shop-row">
@@ -36,13 +51,6 @@
           <view class="goods-desc">{{item.detail}}</view>
           <view class="goods-price">¥{{item.price}}</view>
         </view>
-
-        <!-- 数量为0 只显示加号 -->
-        <!-- <view class="goods-ctrl" wx:if="{{getDishCount(item.id) === 0}}">
-          <view class="goods-add" bindtap="onAddCart" data-dish="{{item.id}}">+</view>
-        </view> -->
-
-        <!-- 数量大于0 显示 减 数量 加 -->
         <view class="goods-ctrl">
           <view class="goods-min" bindtap="onMinCart" data-dish="{{item}}">-</view>
           <view class="goods-num">{{dishid_counts[item.id]||0}}</view>
@@ -57,17 +65,46 @@
   </view>
 
   <!-- 底部购物车（固定） -->
-  <view class="bottom-cart">
+  <view class="bottom-cart" bindtap="toggleCartDetail">
     <view class="cart-icon-wrap">
       <view class="cart-icon">🛒</view>
       <!-- 角标可自行添加 -->
     </view>
     <view class="cart-info">
-      <text class="cart-total">¥{{cart_total_price/100}}</text>
+      <text class="cart-total">¥{{cart_total_price}}</text>
       <text class="cart-tip">预估配送约30分钟</text>
     </view>
-    <view class="cart-btn {{shopStatus === 1 ? 'active1' : 'disabled'}}" bindtap="shopStatus">
-      {{shopStatus === 1 ? '去结算' : '暂不接单'}}
+    <!-- 可点击：状态1 -->
+    <view wx:if="{{shopStatus === 1}}" class="cart-btn active1" catchtap="shopStatus">
+      去结算
+    </view>
+
+    <!-- 不可点击：状态0 -->
+    <view wx:else class="cart-btn disabled">
+      暂不接单
+    </view>
+
+  </view>
+</view>
+<!-- 购物车详情浮层 -->
+<view class="cart-detail-fixed {{showCartDetail ? 'show' : ''}}">
+  <!-- 固定顶部标题：永远在最上面，不滚动 -->
+  <view class="cart-detail-title">购物车详情</view>
+  
+  <!-- 滚动区域：只有菜品内容滚动 -->
+  <view class="cart-scroll-box">
+    <view class="goods-card" wx:for="{{dishid_counts}}" wx:for-of wx:key="*this">
+      <image class="goods-img" src="{{util.getDish(AllDishes, index).image}}"></image>
+      <view class="goods-info">
+        <view class="goods-name">{{util.getDish(AllDishes, index).name}}</view>
+        <view class="goods-desc">{{util.getDish(AllDishes, index).detail}}</view>
+        <view class="goods-price">¥{{util.getDish(AllDishes, index).price}}</view>
+      </view>
+      <view class="goods-ctrl">
+        <view class="goods-min" bindtap="onMinCart" data-dish="{{util.getDish(AllDishes, index)}}">-</view>
+        <view class="goods-num">{{item}}</view>
+        <view class="goods-add" bindtap="onAddCart" data-dish="{{util.getDish(AllDishes, index)}}">+</view>
+      </view>
     </view>
   </view>
 </view>

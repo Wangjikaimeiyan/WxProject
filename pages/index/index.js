@@ -44,7 +44,16 @@ Page({
     /*单位:分 */
     // 定义购物车菜品数量集合，键值对 id:count
     dishid_counts: {},
+    // 定义购物车详情，是否展开
+    showCartDetail: false,
   },
+  // 切换购物车详情
+  toggleCartDetail() {
+    this.setData({
+      showCartDetail: !this.data.showCartDetail
+    })
+  },
+
 
   // 左侧分类表的处理逻辑
   selectCate(e) {
@@ -70,7 +79,7 @@ Page({
       AllDishes: res.data
     })
   },
-  // 获取店铺营业状态 用你自己封装的request
+  // 获取店铺营业状态
   async getShopStatus() {
     console.log("查询店铺状态")
     const res = await request({
@@ -97,12 +106,13 @@ Page({
       image: dish.image,
       category: dish.category
     };
-    // 不用扩展运算符，改用push兼容写法
+    //push兼容写法
     let cart = this.data.cart;
     cart.push(newDish);
     this.setData({
       cart: cart,
-      cart_total_price: this.data.cart_total_price + (dish.price * 100)
+      // 也可用 toFixed，但会返回字符串，需要转回数字（若不介意后续做字符串拼接也可以）
+      cart_total_price: parseFloat((this.data.cart_total_price + dish.price).toFixed(2))
     });
     // 更新购物车菜品数量集合
     this.updateDishCounts(dish.id, 1);
@@ -130,46 +140,47 @@ Page({
     });
   },
   // 减少购物车数量
-onMinCart(e) {
-  // 首先判断数量如果是0,直接返回
-  if (this.getDishCount(e.currentTarget.dataset.dish.id) === 0) {
-    return;
-  }
-  console.log("减少购物车");
-  const dish = e.currentTarget.dataset.dish;
+  onMinCart(e) {
+    // 首先判断数量如果是0,直接返回
+    if (this.getDishCount(e.currentTarget.dataset.dish.id) === 0) {
+      return;
+    }
+    console.log("减少购物车");
+    const dish = e.currentTarget.dataset.dish;
 
-  // 1. 从购物车明细cart中，删掉同id第一条
-  let cart = this.data.cart;
-  // 找到第一个相同id的下标
-  let index = cart.findIndex(item => item.id === dish.id);
-  if (index !== -1) {
-    cart.splice(index, 1);
-  }
+    // 1. 从购物车明细cart中，删掉同id第一条
+    let cart = this.data.cart;
+    // 找到第一个相同id的下标
+    let index = cart.findIndex(item => item.id === dish.id);
+    if (index !== -1) {
+      cart.splice(index, 1);
+    }
 
-  // 2. 扣总价
-  this.setData({
-    cart: cart,
-    cart_total_price: this.data.cart_total_price - (dish.price * 100)
-  });
+    // 2. 扣总价
+    this.setData({
+      cart: cart,
+      // 也可用 toFixed，但会返回字符串，需要转回数字（若不介意后续做字符串拼接也可以）
+      cart_total_price: parseFloat((this.data.cart_total_price - dish.price).toFixed(2))
+    });
 
-  // 3. 更新数量集合 减1
-  this.updateDishCounts(dish.id, -1);
-  console.log(this.data.dishid_counts);
-  console.log(this.data.cart);
-},
-
-
-
+    // 3. 更新数量集合 减1
+    this.updateDishCounts(dish.id, -1);
+    console.log(this.data.dishid_counts);
+    console.log(this.data.cart);
+  },
 
 
-// 根据菜品id 获取数量，没有返回0
-getDishCount(dishId) {
-  let obj = this.data.dishid_counts;
-  // 有值就返回，没有返回0
-  let num = obj[dishId] || 0;
-  console.log("当前菜品数量：", num);
-  return num;
-},
+
+
+
+  // 根据菜品id 获取数量，没有返回0
+  getDishCount(dishId) {
+    let obj = this.data.dishid_counts;
+    // 有值就返回，没有返回0
+    let num = obj[dishId] || 0;
+    console.log("当前菜品数量：", num);
+    return num;
+  },
 
 
 
