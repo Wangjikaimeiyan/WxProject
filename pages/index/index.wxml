@@ -75,12 +75,12 @@ module.exports = {
       <text class="cart-tip">预估配送约30分钟</text>
     </view>
     <!-- 可点击：状态1 -->
-    <view wx:if="{{shopStatus === 1}}" class="cart-btn active1" catchtap="shopStatus">
+    <view wx:if="{{shopStatus === 1}}" class="cart-btn active1" catchtap="ordertoinput">
       去结算
     </view>
 
     <!-- 不可点击：状态0 -->
-    <view wx:else class="cart-btn disabled">
+    <view wx:else class="cart-btn disabled" catchtap="order1">
       暂不接单
     </view>
 
@@ -108,3 +108,17 @@ module.exports = {
     </view>
   </view>
 </view>
+
+<!-- 订单输入框 -->
+<!-- 备注弹窗 -->
+<view wx:if="{{showRemarkPopup}}" class="popup-mask" catchtap="closePopup">
+  <view class="popup-box" catchtap="stopTap">
+    <view class="popup-title">订单备注</view>
+    <textarea placeholder="选填：口味要求、不要香菜等" bindinput="remarkInput" value="{{order_remark}}"></textarea>
+    <view class="popup-btns">
+      <button bindtap="closePopup">取消</button>
+      <button bindtap="order">确认下单</button>
+    </view>
+  </view>
+</view>
+<!-- TODO：订单支付窗口 -->

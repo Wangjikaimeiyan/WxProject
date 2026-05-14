@@ -46,7 +46,43 @@ Page({
     dishid_counts: {},
     // 定义购物车详情，是否展开
     showCartDetail: false,
+    // 订单回执信息
+    order: "",
+    // 订单备注
+    order_remark: "",
+    // 订单详情弹窗
+    showRemarkPopup: false, // 控制弹窗显示
   },
+
+  // 监听备注输入
+  remarkInput(e) {
+    this.setData({
+      order_remark: e.detail.value
+    })
+  },
+  // 点击去结算 → 弹出弹窗
+  ordertoinput() {
+    if (!this.data.cart === null || this.data.cart.length === 0) {
+      // 弹窗提示
+      wx.showToast({
+        title: "购物车为空，请先添加菜品",
+        icon: "none"
+      })
+      return
+    }
+    console.log("点击去结算")
+    this.setData({
+      showRemarkPopup: true
+    })
+  },
+  // 关闭弹窗
+  closePopup() {
+    this.setData({
+      showRemarkPopup: false,
+      order_remark: ""
+    })
+  },
+
   // 切换购物车详情
   toggleCartDetail() {
     this.setData({
@@ -182,6 +218,73 @@ Page({
     return num;
   },
 
+  // 下单
+  async order() {
+    // TODO首先重新查询店铺状态
+    console.log("下单");
+    if (this.data.shopStatus === 0) {
+      wx.showToast({
+        title: '暂停营业中，暂时无法下单呢',
+        icon: 'none', // 不显示成功/失败图标，只显示文字
+        duration: 2000 // 显示2秒
+      })
+    } else {
+      // 将dishid_counts传给后端
+      console.log("start order")
+      const res = await request({
+        url: "/WxUser/Order",
+        method: "POST",
+        data: {
+          remark: this.data.order_remark,
+          dishidCounts: this.data.dishid_counts,
+        }
+      })
+      this.setData({
+        order_remark: "",
+      })
+      // 关闭弹窗
+      this.closePopup();
+      if (res.code === 1) {
+        // 清空购物车
+        console.log("清空购物车")
+        this.setData({
+          cart: [],
+          cart_total_price: 0,
+          dishid_counts: {}
+        })
+        wx.showToast({
+          title: "正在调用支付接口",
+          icon: 'none', // 不显示成功/失败图标，只显示文字
+          duration: 2000 // 显示2秒
+        })
+        // TODO：调用支付接口,前端支付接口用的数据在res.data中
+
+      } else {
+        // 清空购物车
+        console.log("清空购物车")
+        this.setData({
+          cart: [],
+          cart_total_price: 0,
+          dishid_counts: {}
+        })
+        wx.showToast({
+          title: "下单失败",
+          icon: 'none', // 不显示成功/失败图标，只显示文字
+          duration: 2000 // 显示2秒
+        })
+      }
+      console.log(res)
+    }
+  },
+  // 下单，非营业状态
+  order1() {
+    // TODO首先重新查询店铺状态
+    wx.showToast({
+      title: '暂时无法下单呢',
+      icon: 'none', // 不显示成功/失败图标，只显示文字
+      duration: 2000 // 显示2秒
+    })
+  },
 
 
 
@@ -200,6 +303,8 @@ Page({
 
 
 
+
+  //  开始函数，
   onLoad() {
     // 查询所有菜品
     this.GetAllDishes()
