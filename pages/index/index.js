@@ -35,6 +35,7 @@ Page({
     dish: {
       id: null,
       name: null,
+      sales:null,
       price: null,
       detail: null,
       image: null,
@@ -257,7 +258,16 @@ Page({
           icon: 'none', // 不显示成功/失败图标，只显示文字
           duration: 2000 // 显示2秒
         })
-        // TODO：调用支付接口,前端支付接口用的数据在res.data中
+        // TODO：调用支付接口,前端支付接口用的数据在res.data中(包括)
+        /*    支付所需要的参数
+        {
+          timeStamp: "1620000000", // 时间戳，字符串格式，秒级（10位），用于签名和防重放
+          nonceStr: "abc123...",   // 随机字符串，长度小于32位，用于签名，保证每次请求唯一
+          package: "prepay_id=wx123...", // 订单详情扩展字符串，格式固定为 "prepay_id=xxx"，xxx是微信返回的预支付交易会话ID
+          signType: "RSA",         // 签名方式，取值 "RSA" 或 "MD5"，现在推荐使用RSA
+          paySign: "签名结果..."    // 签名，后端使用商户私钥对前面几个字段按规范签名，前端传给微信验证
+        }
+      */
 
       } else {
         // 清空购物车
@@ -268,7 +278,7 @@ Page({
           dishid_counts: {}
         })
         wx.showToast({
-          title: "下单失败",
+          title: res.msg,
           icon: 'none', // 不显示成功/失败图标，只显示文字
           duration: 2000 // 显示2秒
         })

@@ -148,12 +148,23 @@ cate-text{
   padding-top: 0rpx;
 }
 
-/* 菜品名称 */
+/* 外层：弹性布局，左右分开 */
 .goods-name {
-  font-size: 32rpx;              /* 文字字号 */
-  color: #333;                  /* 文字深灰色 */
-  font-weight: 500;            /* 文字轻微加粗 */
+  font-size: 32rpx;
+  color: #333;
+  font-weight: 500;
+  display: flex;
+  justify-content: space-between; /* 左右两端对齐 */
+  align-items: center;
 }
+
+/* 销量：靠右、更小、红色 */
+.sales-text {
+  font-size: 24rpx;
+  color: #f53f3f;
+  font-weight: 400;
+}
+
 
 .goods-desc {
   /* 如果需要弹性布局，取消注释下面两行 */

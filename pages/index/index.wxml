@@ -1,16 +1,16 @@
 <wxs module="util">
-// 根据id查菜品
-function getDish(arr, id) {
-  for (var i = 0; i < arr.length; i++) {
-    if (arr[i].id == id) {
-      return arr[i];
+  // 根据id查菜品
+  function getDish(arr, id) {
+    for (var i = 0; i < arr.length; i++) {
+      if (arr[i].id == id) {
+        return arr[i];
+      }
     }
+    return {};
   }
-  return {};
-}
-module.exports = {
-  getDish: getDish
-};
+  module.exports = {
+    getDish: getDish
+  };
 </wxs>
 
 <view class="page-container">
@@ -47,7 +47,10 @@ module.exports = {
       <view class="goods-card" wx:for="{{AllDishes}}" wx:key="id" wx:if="{{item.category === activeCateId}}">
         <image class="goods-img" src="{{item.image}}"></image>
         <view class="goods-info">
-          <view class="goods-name">{{item.name}}</view>
+          <view class="goods-name">
+            <view>{{item.name}}</view>
+            <view class="sales-text">总销量{{item.sales}}</view>
+          </view>
           <view class="goods-desc">{{item.detail}}</view>
           <view class="goods-price">¥{{item.price}}</view>
         </view>
@@ -90,7 +93,7 @@ module.exports = {
 <view class="cart-detail-fixed {{showCartDetail ? 'show' : ''}}">
   <!-- 固定顶部标题：永远在最上面，不滚动 -->
   <view class="cart-detail-title">购物车详情</view>
-  
+
   <!-- 滚动区域：只有菜品内容滚动 -->
   <view class="cart-scroll-box">
     <view class="goods-card" wx:for="{{dishid_counts}}" wx:for-of wx:key="*this">
