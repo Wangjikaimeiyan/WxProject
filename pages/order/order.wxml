@@ -1,0 +1,121 @@
+<!--pages/order/order.wxml-->
+<view class="page-container">
+  <!-- 顶部标题 -->
+  <view class="top-header">
+    <text class="shop-name">订单详情</text>
+  </view>
+
+  <!-- 分类标签栏（currentTab 由页面 JS 控制，此处仅作展示） -->
+  <view class="tab-bar">
+    <view class="tab-item {{currentTab === 0 ? 'tab-active' : ''}}" data-index="0" bindtap="switchTab">
+      <text>未支付</text>
+      <view class="tab-line" wx:if="{{currentTab === 0}}"></view>
+    </view>
+    <view class="tab-item {{currentTab === 1 ? 'tab-active' : ''}}" data-index="1" bindtap="switchTab">
+      <text>未接单</text>
+      <view class="tab-line" wx:if="{{currentTab === 1}}"></view>
+    </view>
+    <view class="tab-item {{currentTab === 2 ? 'tab-active' : ''}}" data-index="2" bindtap="switchTab">
+      <text>进行中</text>
+      <view class="tab-line" wx:if="{{currentTab === 2}}"></view>
+    </view>
+    <view class="tab-item {{currentTab === 3 ? 'tab-active' : ''}}" data-index="3" bindtap="switchTab">
+      <text>已完成</text>
+      <view class="tab-line" wx:if="{{currentTab === 3}}"></view>
+    </view>
+  </view>
+
+  <!-- 订单列表区域（可滚动） -->
+  <scroll-view class="order-list" scroll-y>
+    <!-- ========== 订单卡片示例（数据写死，“未支付”状态） ========== -->
+    <view class="order-card">
+      <!-- ① 顶部状态栏（固定大小） -->
+      <view class="card-header">
+        <view class="restaurant-name">XXX餐饮服务</view>
+        <!-- 根据 currentTab 显示不同的订单状态文字 -->
+        <view class="order-status">
+          <block wx:if="{{currentTab === 0}}">未支付</block>
+          <block wx:elif="{{currentTab === 1}}">未接单</block>
+          <block wx:elif="{{currentTab === 2}}">进行中</block>
+          <block wx:elif="{{currentTab === 3}}">已完成</block>
+        </view>
+      </view>
+      <!-- 极浅灰色分割线 -->
+      <view class="divider"></view>
+
+      <!--============================== ② 中间菜品列表（不固定大小）============================= -->
+      <view class="items-container">
+        <!-- 菜品小卡片 1 -->
+        <view class="food-item">
+          <!-- 左边菜品图片（强制正方形） -->
+          <!-- 【固定尺寸】可在此调整宽度和高度，单位 rpx -->
+          <image class="food-img" src="https://via.placeholder.com/120?text=food1" mode="aspectFill"></image>
+          <!-- 中间菜品名称 -->
+          <view class="food-name">番茄炒蛋</view>
+          <!-- 右边单价与数量 -->
+          <view class="food-price">
+            <text class="price-text">¥15.00</text>
+            <text class="quantity-text">×2</text>
+          </view>
+        </view>
+        <view class="divider divider-light"></view>
+
+        <!-- 菜品小卡片 2 -->
+        <view class="food-item">
+          <image class="food-img" src="https://via.placeholder.com/120?text=food2" mode="aspectFill"></image>
+          <view class="food-name">宫保鸡丁</view>
+          <view class="food-price">
+            <text class="price-text">¥22.00</text>
+            <text class="quantity-text">×1</text>
+          </view>
+        </view>
+        <view class="divider divider-light"></view>
+
+        <!-- 菜品小卡片 3 -->
+        <view class="food-item">
+          <image class="food-img" src="https://via.placeholder.com/120?text=food3" mode="aspectFill"></image>
+          <view class="food-name">酸辣土豆丝</view>
+          <view class="food-price">
+            <text class="price-text">¥12.00</text>
+            <text class="quantity-text">×1</text>
+          </view>
+        </view>
+      </view>
+
+      <!-- ③ 下方备注与总价 -->
+      <view class="remark-section">
+        <text class="remark-text">备注：少辣，不要葱</text>
+        <text class="total-price">¥45.00</text>
+      </view>
+      <view class="divider"></view>
+
+      <!-- ④ 底部操作区域（根据 currentTab 显示不同按钮） -->
+      <!-- 此处直接展示“未支付”对应的按钮，实际项目可用 wx:if 动态切换 -->
+      <view class="card-footer">
+        <!-- 未支付：去支付 + 取消订单 -->
+        <block wx:if="{{currentTab === 0}}">
+          <button class="btn-pay">去支付</button>
+          <button class="btn-cancel">取消订单</button>
+        </block>
+
+        <!-- 未接单：等待提示 -->
+        <block wx:elif="{{currentTab === 1}}">
+          <text class="status-text">等待商家接单…</text>
+        </block>
+
+        <!-- 进行中：进行中提示 -->
+        <block wx:elif="{{currentTab === 2}}">
+          <text class="status-text">商家正在火热进行中…</text>
+        </block>
+
+        <!-- 已完成：删除订单 + 售后服务 -->
+        <block wx:elif="{{currentTab === 3}}">
+          <button class="btn-delete">删除订单</button>
+          <button class="btn-service">售后服务</button>
+        </block>
+      </view>
+    </view>
+
+    <!-- 可继续复制更多订单卡片 -->
+  </scroll-view>
+</view>

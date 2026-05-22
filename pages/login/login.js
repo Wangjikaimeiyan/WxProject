@@ -1,4 +1,6 @@
-import { BASE_URL } from "../../utils/util.js";
+import {
+  BASE_URL
+} from "../../utils/util.js";
 
 Page({
   data: {
@@ -39,18 +41,28 @@ Page({
           },
           success: (res) => {
             if (res.data.code !== 1) {
-              wx.showToast({ title: "登录失败", icon: "none" })
+              wx.showToast({
+                title: "登录失败",
+                icon: "none"
+              })
               return;
             }
-            // 保存token
-            wx.setStorageSync("token", res.data.data)
-            // 关键：登录成功 跳转到首页
+            const {
+              token,
+              openid
+            } = res.data.data;
+            wx.setStorageSync("token", token);
+            // 将 openid 存到全局
+            getApp().globalData.openId = openid;
             wx.switchTab({
               url: "/pages/index/index"
-            })
+            });
           },
           fail() {
-            wx.showToast({ title: "请求失败", icon: "none" })
+            wx.showToast({
+              title: "请求失败",
+              icon: "none"
+            })
           }
         })
       }

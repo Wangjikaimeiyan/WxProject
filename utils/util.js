@@ -8,7 +8,7 @@ const formatTime = date => {
 
   return `${[year, month, day].map(formatNumber).join('/')} ${[hour, minute, second].map(formatNumber).join(':')}`
 }
-const BASE_URL = "http://10.25.92.206:8080"
+const BASE_URL = "http://10.206.151.206:8080"
 
 const formatNumber = n => {
   n = n.toString()

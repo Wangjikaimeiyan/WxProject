@@ -2,7 +2,7 @@
   "pages": [
     "pages/login/login",
     "pages/index/index",
-    "pages/list/list"
+    "pages/order/order"
   ],
   "window": {
     "navigationBarTextStyle": "black",
@@ -22,7 +22,7 @@
         "selectedIconPath": "/static/ima/home1.png"
       },
       {
-        "pagePath": "pages/list/list",
+        "pagePath": "pages/order/order",
         "text": "订单",
         "iconPath": "/static/ima/sheet.png",
         "selectedIconPath": "/static/ima/sheet1.png"
