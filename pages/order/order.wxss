@@ -66,7 +66,7 @@
 /* ===== 订单列表可滚动区域 ===== */
 .order-list {
   /* 移除 flex: 1; 改用固定计算高度，确保不被撑开 */
-  height: calc(100vh - 12vh);   /* 总屏幕高度 - 标题栏(6vh) - 标签栏(6vh) */
+  height: calc(100vh);   /* 总屏幕高度 - 标题栏(6vh) - 标签栏(6vh) */
   padding: 20rpx;
   box-sizing: border-box;
   overflow-y: auto;            /* scroll-view 会自动处理，但加上保证兼容 */

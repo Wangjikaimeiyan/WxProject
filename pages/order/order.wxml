@@ -1,9 +1,9 @@
 <!--pages/order/order.wxml-->
 <view class="page-container">
   <!-- 顶部标题 -->
-  <view class="top-header">
+  <!-- <view class="top-header">
     <text class="shop-name">订单详情</text>
-  </view>
+  </view> -->
 
   <!-- 分类标签栏（currentTab 由页面 JS 控制，此处仅作展示） -->
   <view class="tab-bar">
