@@ -38,7 +38,9 @@
           <block wx:if="{{currentTab === 0}}">未支付</block>
           <block wx:elif="{{currentTab === 1}}">未接单</block>
           <block wx:elif="{{currentTab === 2}}">进行中</block>
-          <block wx:elif="{{currentTab === 3}}">已完成</block>
+          <block wx:elif="{{item.status == 3}}">已完成</block>
+          <text wx:elif="{{item.status == 4}}" style="color: #999999;">已取消</text>
+          <!-- <block wx:elif="{{item.status == 4}}" style="color: #999999;">已取消</block> -->
         </view>
       </view>
       <!-- 极浅灰色分割线 -->
