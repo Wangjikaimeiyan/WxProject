@@ -48,16 +48,16 @@ Page({
 
   // 内部方法：根据 tab 索引切换并加载对应数据
   _switchToTab(tabIndex) {
-    // 更新tab并清空订单列表
-    this.setData({
-      currentTab: tabIndex,
-      orderList: []
-    })
-    // 未支付 tab 需加载未支付订单
+    this.setData({ currentTab: tabIndex });   // 只切换标签，不清空数据
     if (tabIndex === 0) {
-      this.getUnPayOrder()
+      this.getUnPayOrder();
+    } else if (tabIndex === 1) {
+      this.getPayOrder();
+    } else if (tabIndex === 2) {
+      this.getProcessingOrder();
+    } else if (tabIndex === 3) {
+      this.getFinishOrder();
     }
-    console.log(this.data.currentTab, tabIndex)
   },
 
   // ================================订单业务===============================
@@ -65,6 +65,39 @@ Page({
   getUnPayOrder() {
     request({
       url: "/WxUser/getUnPayOrder",
+      method: "GET",
+    }).then(res => {
+      this.setData({
+        orderList: res.data
+      })
+    })
+  },
+  // 获取已支付订单，根据用户id
+  getPayOrder() {
+    request({
+      url: "/WxUser/getPayOrder",
+      method: "GET",
+    }).then(res => {
+      this.setData({
+        orderList: res.data
+      })
+    })
+  },
+  // 获取进行中订单，根据用户id
+  getProcessingOrder() {
+    request({
+      url: "/WxUser/getProcessingOrder",
+      method: "GET",
+    }).then(res => {
+      this.setData({
+        orderList: res.data
+      })
+    })
+  },
+  // 已完成
+  getFinishOrder() {
+    request({
+      url: "/WxUser/getFinishOrder",
       method: "GET",
     }).then(res => {
       this.setData({
