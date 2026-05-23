@@ -42,29 +42,22 @@ Page({
 
   switchTab(e) {
     // 根据传入的index切换当前选中的tab
+    const tabIndex = parseInt(e.currentTarget.dataset.index)
+    this._switchToTab(tabIndex)
+  },
+
+  // 内部方法：根据 tab 索引切换并加载对应数据
+  _switchToTab(tabIndex) {
+    // 更新tab并清空订单列表
     this.setData({
-      currentTab: parseInt(e.currentTarget.dataset.index)
+      currentTab: tabIndex,
+      orderList: []
     })
-    switch (this.data.currentTab) {
-      // 未支付
-      case 0:
-        this.getUnPayOrder()
-        console.log("未支付")
-        break;
-        // 未接单
-      case 1:
-
-        break;
-        // 进行中
-      case 2:
-
-        break;
-        // 已完成
-      case 3:
-
-        break;
+    // 未支付 tab 需加载未支付订单
+    if (tabIndex === 0) {
+      this.getUnPayOrder()
     }
-    console.log(this.data.currentTab)
+    console.log(this.data.currentTab, tabIndex)
   },
 
   // ================================订单业务===============================
@@ -73,9 +66,6 @@ Page({
     request({
       url: "/WxUser/getUnPayOrder",
       method: "GET",
-      data: {
-        userId: getApp().globalData.openId
-      }
     }).then(res => {
       this.setData({
         orderList: res.data
@@ -95,14 +85,14 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-
+    
   },
 
   /**
    * 生命周期函数--监听页面显示
    */
   onShow() {
-
+    this.getUnPayOrder()
   },
 
   /**
@@ -123,7 +113,10 @@ Page({
    * 页面相关事件处理函数--监听用户下拉动作
    */
   onPullDownRefresh() {
-
+    console.log("下拉刷新")
+    // 直接传入当前 tab 索引刷新
+    this._switchToTab(this.data.currentTab)
+    wx.stopPullDownRefresh()
   },
 
   /**
