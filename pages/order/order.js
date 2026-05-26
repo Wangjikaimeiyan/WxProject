@@ -48,7 +48,9 @@ Page({
 
   // 内部方法：根据 tab 索引切换并加载对应数据
   _switchToTab(tabIndex) {
-    this.setData({ currentTab: tabIndex });   // 只切换标签，不清空数据
+    this.setData({
+      currentTab: tabIndex
+    }); // 只切换标签，不清空数据
     if (tabIndex === 0) {
       this.getUnPayOrder();
     } else if (tabIndex === 1) {
@@ -105,6 +107,47 @@ Page({
       })
     })
   },
+  // toPay去支付
+  toPay(e) {
+    const orderId = e.currentTarget.dataset.orderid;  // 全小写 i
+    request({
+      url: "/WxUser/toPay",
+      method: "POST",
+      data: orderId
+    }).then(res => {
+      if (res.code == 1) {
+        // 重新查询
+        this._switchToTab(0)
+        wx.showToast({
+           // 弹出toast提示支付成功
+          title: '支付成功',
+          icon: 'success',
+          duration: 2000
+        }) 
+      } else{
+        wx.showToast({
+          title: '支付失败',
+          icon: 'none',
+          duration: 2000
+        })
+      }
+    })
+  },
+  // toPayAndOrder去支付并下单
+  toPayAndOrder(e) {
+    // 弹出弹窗是否支付，如果点击确定，调用toPay，显示支付成功，点击取消，显示取消支付
+    wx.showModal({
+      title: '提示',
+      content: '是否支付',
+      success: (res) => {   // 箭头函数，this 和外层一致
+        if (res.confirm) {
+          this.toPay(e)     // ✅ 正确
+        } else if (res.cancel) {
+          wx.showToast({ title: '取消支付', icon: 'none' })
+        }
+      }
+    })
+  },
 
 
   /**
@@ -118,7 +161,7 @@ Page({
    * 生命周期函数--监听页面初次渲染完成
    */
   onReady() {
-    
+
   },
 
   /**
