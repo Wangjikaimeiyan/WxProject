@@ -148,6 +148,32 @@ Page({
       }
     })
   },
+  // cancelOrder取消订单，首先弹出弹窗，是否取消订单，点击确定之后发送请求
+  cancelOrder(e) {
+    wx.showModal({
+      title: '提示',
+      content: '是否取消订单',
+      success: (res) => {   // 箭头函数，this 和外层一致
+        if (res.confirm) {
+            const orderId = e.currentTarget.dataset.orderid;  
+            request({
+              url: "/WxUser/cancelOrder",
+              method: "POST",
+              data: orderId
+            }).then(res => {
+              if (res.code === 1) {
+                this._switchToTab(0)
+                wx.showToast({title: '取消成功', icon: 'none',duration: 2000})
+              } else if(res.code === 0) {
+                wx.showToast({title: '取消失败', icon: 'none',duration: 2000})
+              }
+            })
+        } else if (res.cancel) {
+          wx.showToast({ title: '取消成功', icon: 'none',duration: 2000})
+        }
+      }
+    })
+  },
 
 
   /**

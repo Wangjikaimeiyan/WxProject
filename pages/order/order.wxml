@@ -76,7 +76,7 @@
       <view class="card-footer">
         <!-- 未支付：去支付 + 取消订单 -->
         <block wx:if="{{currentTab === 0}}">
-          <button class="btn-cancel">取消订单</button>
+          <button class="btn-cancel" bindtap="cancelOrder" data-orderId="{{item.orderId}}">取消订单</button>
           <button class="btn-pay" bindtap="toPayAndOrder" data-orderId="{{item.orderId}}">去支付</button>
         </block>
 
@@ -92,8 +92,7 @@
 
         <!-- 已完成：删除订单 + 售后服务 -->
         <block wx:elif="{{currentTab === 3}}">
-          <button class="btn-delete">删除订单</button>
-          <button class="btn-service">售后服务</button>
+          <text class="status-text">有问题请致电：123 3625 8865</text>
         </block>
       </view>
     </view>
